@@ -1,1 +1,7 @@
-// Flows will be imported for their side effects in this file.
+import { config } from 'dotenv';
+config();
+
+import '@/ai/flows/ai-frame-editing-adjustments.ts';
+import '@/ai/flows/generate-storyboard-from-prompt.ts';
+import '@/ai/flows/ai-generate-animation-frames.ts';
+import '@/ai/flows/collaborative-ai-assisted-editing.ts';
