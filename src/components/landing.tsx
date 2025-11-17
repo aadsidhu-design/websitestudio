@@ -1,13 +1,14 @@
 'use client';
 
-import { useEffect, useActionState } from 'react';
+import { useEffect } from 'react';
+import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { handleGenerateStoryboard } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
-import { Sparkles, ArrowUp, Globe, Settings2 } from 'lucide-react';
+import { Sparkles, ArrowUp, Globe, Settings2, Twitter } from 'lucide-react';
 import type { StoryboardOption } from '@/app/types';
 import { useToast } from "@/hooks/use-toast";
 import { Switch } from '@/components/ui/switch';
@@ -25,7 +26,7 @@ const initialState: { storyboardOptions: StoryboardOption[] | null; error: strin
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" disabled={pending} size="icon" className="rounded-full flex-shrink-0 bg-primary/80 hover:bg-primary">
+    <Button type="submit" disabled={pending} className="rounded-full w-14 h-14 flex-shrink-0 bg-primary/80 hover:bg-primary shadow-lg hover:shadow-primary/50 transition-all duration-300">
       {pending ? <Sparkles className="animate-spin" /> : <ArrowUp />}
     </Button>
   );
@@ -36,15 +37,15 @@ function Header() {
     <header className="absolute top-0 left-0 right-0 p-4 z-10">
         <div className="container mx-auto flex justify-between items-center">
             <Logo />
-            <nav className="hidden md:flex items-center gap-4 text-sm font-medium">
+            <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
               <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Community</a>
               <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Pricing</a>
-              <a href="#" className="text-foreground/80 hover-text-foreground transition-colors">Features</a>
+              <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Features</a>
               <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Learn</a>
             </nav>
             <nav className="flex items-center gap-2">
                 <Button variant="ghost">Log in</Button>
-                <Button className="bg-primary/80 hover:bg-primary">Get Started</Button>
+                <Button className="bg-primary/90 hover:bg-primary rounded-full px-6 shadow-lg hover:shadow-primary/50 transition-all duration-300">Get Started</Button>
             </nav>
         </div>
     </header>
@@ -56,16 +57,19 @@ function CommunityShowcase() {
   return (
     <section className="w-full py-24 sm:py-32">
         <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold tracking-tight mb-4">From the Community</h2>
-            <div className="flex flex-wrap items-center gap-2 mb-8">
-              {categories.map(cat => <Button key={cat} variant={cat === "Popular" ? "secondary" : "ghost"}>{cat}</Button>)}
-              <Button variant="ghost" className="ml-auto">View All</Button>
+            <div className="text-center mb-12">
+                <h2 className="text-4xl font-bold tracking-tighter mb-2">From the Community</h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Explore what others are creating with Robin.</p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+              {categories.map(cat => <Button key={cat} variant={cat === "Popular" ? "secondary" : "ghost"} className="rounded-full">{cat}</Button>)}
+              <Button variant="outline" className="ml-auto rounded-full">View All</Button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {PlaceHolderImages.map((image, index) => (
-                    <Card key={image.id} className="group overflow-hidden bg-card/50 border-border/30 hover:shadow-primary/20 hover:shadow-lg transition-all duration-300">
+                    <Card key={image.id} className="group overflow-hidden bg-card/50 border-border/30 hover:shadow-primary/20 hover:shadow-lg transition-all duration-300 rounded-xl">
                         <CardContent className="p-0">
-                            <div className="relative aspect-video w-full">
+                            <div className="relative aspect-[4/3] w-full">
                                 <Image 
                                     src={image.imageUrl}
                                     alt={image.description}
@@ -85,7 +89,7 @@ function CommunityShowcase() {
                 ))}
             </div>
              <div className="text-center mt-12">
-                <Button variant="outline" size="lg">Show More</Button>
+                <Button variant="outline" size="lg" className="rounded-full px-8">Show More</Button>
             </div>
         </div>
     </section>
@@ -94,37 +98,37 @@ function CommunityShowcase() {
 
 function Footer() {
     const footerLinks = {
-      "Company": ["Careers", "Press & Media", "Enterprise", "Security", "Trust Center", "Partnerships"],
-      "Product": ["Pricing", "Student Discount", "Solutions", "Connections", "Import from Figma", "Changelog", "Status"],
-      "Resources": ["Learn", "How-to guides", "Videos", "Blog", "Launched"],
-      "Legal": ["Privacy policy", "Cookie settings", "Terms of service", "Platform rules", "Report abuse"],
-      "Community": ["Become a partner", "Hire a partner", "Affiliates", "Discord", "X / Twitter", "LinkedIn"],
+      "Company": ["Careers", "Press & media", "Enterprise", "Security", "Trust center", "Partnerships"],
+      "Product": ["Pricing", "Student discount", "Solutions", "Connections", "Import from Figma", "Changelog", "Status"],
+      "Resources": ["Learn", "How-to guides", "Videos", "Blog", "Launched", "Support"],
+      "Legal": ["Privacy policy", "Cookie settings", "Terms of Service", "Platform rules", "Report abuse", "Report security concerns"],
+      "Community": ["Become a partner", "Hire a partner", "Affiliates", "Discord", "X / Twitter", "YouTube", "LinkedIn"],
     };
 
     return (
-      <footer className="bg-card/30 border-t border-border/30 py-16">
-        <div className="container mx-auto px-4">
+      <footer className="py-16">
+        <div className="container mx-auto px-8">
+         <div className="bg-[#1C1C1C] p-12 rounded-3xl">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             <div className="col-span-2 md:col-span-3 lg:col-span-1">
               <Logo />
             </div>
             {Object.entries(footerLinks).map(([title, links]) => (
               <div key={title}>
-                <h4 className="font-semibold mb-4">{title}</h4>
+                <h4 className="font-semibold mb-4 text-sm text-foreground/90">{title}</h4>
                 <ul className="space-y-3">
                   {links.map(link => <li key={link}><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{link}</a></li>)}
                 </ul>
               </div>
             ))}
           </div>
-          <Separator className="my-8 bg-border/50"/>
-           <div className="flex justify-between items-center text-sm text-muted-foreground">
-             <p>&copy; {new Date().getFullYear()} Robin. All rights reserved.</p>
-             <div className="flex items-center gap-2">
-                <Globe className="w-4 h-4" />
+          <div className="mt-12 flex justify-start items-center text-sm text-muted-foreground">
+             <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
+                <Globe className="w-4 h-4 mr-2" />
                 <span>EN</span>
-             </div>
+             </Button>
            </div>
+          </div>
         </div>
       </footer>
     );
@@ -166,10 +170,6 @@ export default function Landing({
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/20 rounded-full blur-[150px] pointer-events-none" />
         
         <div className="z-0">
-          <Badge variant="outline" className="mb-4 backdrop-blur-sm">
-            <Sparkles className="w-3 h-3 mr-2 text-primary"/>
-            Introducing Robin Cloud
-          </Badge>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-4">
               Build something <span className='text-primary'>amazing</span>
           </h1>
@@ -180,15 +180,16 @@ export default function Landing({
 
         <form action={handleSubmit} className="w-full max-w-2xl z-0">
             <Card className="bg-card/50 border-border/30 shadow-2xl rounded-2xl backdrop-blur-sm">
-                <CardContent className="p-2">
+                <CardContent className="p-2 flex items-center">
                      <Textarea
                         name="prompt"
                         placeholder="Ask Robin to create a dashboard to..."
-                        className="text-base resize-none bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground min-h-[60px]"
+                        className="text-base resize-none bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground flex-grow"
                         required
+                        rows={1}
                     />
-                    <div className="flex items-center justify-between mt-2 p-2">
-                       <div className='flex items-center gap-4'>
+                    <div className="flex items-center gap-2 pl-2">
+                       <div className='hidden sm:flex items-center gap-4'>
                          <div className="flex items-center space-x-2">
                             <Switch id="public-switch" />
                             <Label htmlFor="public-switch" className="text-muted-foreground">Public</Label>
