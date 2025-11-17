@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { handleGenerateStoryboard } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -33,7 +33,7 @@ export default function Landing({
   onStoryboardGenerated: (options: StoryboardOption[]) => void;
   setIsLoading: (isLoading: boolean) => void;
 }) {
-  const [state, formAction] = useFormState(handleGenerateStoryboard, initialState);
+  const [state, formAction] = useActionState(handleGenerateStoryboard, initialState);
   const { toast } = useToast();
 
   useEffect(() => {

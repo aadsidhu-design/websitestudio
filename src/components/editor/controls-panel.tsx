@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { handleAdjustFrame, handleCollaborate } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -41,8 +41,8 @@ export default function ControlsPanel({
   onFrameAdjusted: (frame: AnimationFrame) => void;
   updateHistory: () => void;
 }) {
-  const [adjustState, adjustAction] = useFormState(handleAdjustFrame, initialAdjustState);
-  const [collaborateState, collaborateAction] = useFormState(handleCollaborate, initialCollaborateState);
+  const [adjustState, adjustAction] = useActionState(handleAdjustFrame, initialAdjustState);
+  const [collaborateState, collaborateAction] = useActionState(handleCollaborate, initialCollaborateState);
 
   const { toast } = useToast();
 
