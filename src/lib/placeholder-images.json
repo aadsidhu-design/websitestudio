@@ -1,3 +1,76 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "pulse-robot",
+      "description": "Pulse Robot Template",
+      "imageUrl": "https://images.unsplash.com/photo-1582547538038-8889da52fec5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxyb2JvdCUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzYzMzI2MDc0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "robot technology"
+    },
+    {
+      "id": "crypto-trading",
+      "description": "Cryptocurrency Trading Dashboard",
+      "imageUrl": "https://images.unsplash.com/photo-1641580529558-a96cf6efbc72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjcnlwdG8lMjBjaGFydHxlbnwwfHx8fDE3NjMzMzcwODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "crypto chart"
+    },
+    {
+      "id": "crypto-trade",
+      "description": "Crypto Trade Template",
+      "imageUrl": "https://images.unsplash.com/photo-1644190022446-04b99df7259a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxibG9ja2NoYWluJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzYzMzY4NDAxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "blockchain abstract"
+    },
+    {
+      "id": "worlds-ai",
+      "description": "Worlds AI Integration",
+      "imageUrl": "https://images.unsplash.com/photo-1761305135372-bc5c84c402d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhaSUyMHdvcmxkfGVufDB8fHx8MTc2MzM2ODQwMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ai world"
+    },
+    {
+      "id": "seaside-stay",
+      "description": "Modern Seaside Stay",
+      "imageUrl": "https://images.unsplash.com/photo-1600210492493-0946911123ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtb2Rlcm4lMjBpbnRlcmlvcnxlbnwwfHx8fDE3NjMzMDkxNDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "modern interior"
+    },
+    {
+      "id": "market-mosaic",
+      "description": "Market Mosaic Analytics",
+      "imageUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkYXRhJTIwdmlzdWFsaXphdGlvbnxlbnwwfHx8fDE3NjMyNzUwNDJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "data visualization"
+    },
+    {
+      "id": "character-forge",
+      "description": "CharacterForge Image Gen",
+      "imageUrl": "https://images.unsplash.com/photo-1762217235246-4235328d882b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYW50YXN5JTIwY2hhcmFjdGVyfGVufDB8fHx8MTc2MzM1MDU2NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fantasy character"
+    },
+    {
+      "id": "agri-dom",
+      "description": "Agri-Dom Prototype",
+      "imageUrl": "https://images.unsplash.com/photo-1741808666699-23de7a5a8731?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzbWFydCUyMGZhcm18ZW58MHx8fHwxNzYzMzY4NDAwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "smart farm"
+    },
+    {
+      "id": "billify-generator",
+      "description": "Billify Generator",
+      "imageUrl": "https://images.unsplash.com/photo-1579642984094-5be053d579b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbnZvaWNlJTIwYXBwfGVufDB8fHx8MTc2MzM2ODQwMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "invoice app"
+    },
+    {
+      "id": "landing-simulator",
+      "description": "Landing Simulator Sorcery",
+      "imageUrl": "https://images.unsplash.com/photo-1636828982375-a4ec8b809e5e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzcGFjZSUyMGxhbmRpbmd8ZW58MHx8fHwxNzYzMzY4NDAwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "space landing"
+    },
+    {
+      "id": "orangery-ventures",
+      "description": "Orangery Ventures",
+      "imageUrl": "https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxidXNpbmVzcyUyMG1lZXRpbmd8ZW58MHx8fHwxNzYzMzIxNzUyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "business meeting"
+    },
+    {
+      "id": "cortex-brain",
+      "description": "Cortex Second Brain",
+      "imageUrl": "https://images.unsplash.com/photo-1590859808308-3d2d9c515b1a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxuZXVyYWwlMjBuZXR3b3JrfGVufDB8fHx8MTc2MzM0MDYyNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "neural network"
+    }
+  ]
 }

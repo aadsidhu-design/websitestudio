@@ -7,9 +7,15 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
-import { Sparkles, ArrowUp } from 'lucide-react';
+import { Sparkles, ArrowUp, Globe, Settings2 } from 'lucide-react';
 import type { StoryboardOption } from '@/app/types';
 import { useToast } from "@/hooks/use-toast";
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Image from 'next/image';
+import { Badge } from './ui/badge';
+import { Separator } from './ui/separator';
 
 const initialState: { storyboardOptions: StoryboardOption[] | null; error: string | null } = {
   storyboardOptions: null,
@@ -19,7 +25,7 @@ const initialState: { storyboardOptions: StoryboardOption[] | null; error: strin
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" disabled={pending} size="icon" className="rounded-full flex-shrink-0">
+    <Button type="submit" disabled={pending} size="icon" className="rounded-full flex-shrink-0 bg-primary/80 hover:bg-primary">
       {pending ? <Sparkles className="animate-spin" /> : <ArrowUp />}
     </Button>
   );
@@ -27,18 +33,102 @@ function SubmitButton() {
 
 function Header() {
   return (
-    <header className="absolute top-0 left-0 right-0 p-4">
+    <header className="absolute top-0 left-0 right-0 p-4 z-10">
         <div className="container mx-auto flex justify-between items-center">
             <Logo />
-            <nav className="flex items-center gap-4">
+            <nav className="hidden md:flex items-center gap-4 text-sm font-medium">
+              <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Community</a>
+              <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Pricing</a>
+              <a href="#" className="text-foreground/80 hover-text-foreground transition-colors">Features</a>
+              <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Learn</a>
+            </nav>
+            <nav className="flex items-center gap-2">
                 <Button variant="ghost">Log in</Button>
-                <Button>Get Started</Button>
+                <Button className="bg-primary/80 hover:bg-primary">Get Started</Button>
             </nav>
         </div>
     </header>
   );
 }
 
+function CommunityShowcase() {
+  const categories = ["Popular", "Discover", "Internal Tools", "Website", "Personal", "Consumer App", "B2B App", "Prototype"];
+  return (
+    <section className="w-full py-24 sm:py-32">
+        <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold tracking-tight mb-4">From the Community</h2>
+            <div className="flex flex-wrap items-center gap-2 mb-8">
+              {categories.map(cat => <Button key={cat} variant={cat === "Popular" ? "secondary" : "ghost"}>{cat}</Button>)}
+              <Button variant="ghost" className="ml-auto">View All</Button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {PlaceHolderImages.map((image, index) => (
+                    <Card key={image.id} className="group overflow-hidden bg-card/50 border-border/30 hover:shadow-primary/20 hover:shadow-lg transition-all duration-300">
+                        <CardContent className="p-0">
+                            <div className="relative aspect-video w-full">
+                                <Image 
+                                    src={image.imageUrl}
+                                    alt={image.description}
+                                    fill
+                                    data-ai-hint={image.imageHint}
+                                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                    unoptimized
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                            </div>
+                            <div className="p-4">
+                                <h3 className="font-semibold">{image.description}</h3>
+                                <Badge variant="outline" className="mt-2">Website</Badge>
+                            </div>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+             <div className="text-center mt-12">
+                <Button variant="outline" size="lg">Show More</Button>
+            </div>
+        </div>
+    </section>
+  );
+}
+
+function Footer() {
+    const footerLinks = {
+      "Company": ["Careers", "Press & Media", "Enterprise", "Security", "Trust Center", "Partnerships"],
+      "Product": ["Pricing", "Student Discount", "Solutions", "Connections", "Import from Figma", "Changelog", "Status"],
+      "Resources": ["Learn", "How-to guides", "Videos", "Blog", "Launched"],
+      "Legal": ["Privacy policy", "Cookie settings", "Terms of service", "Platform rules", "Report abuse"],
+      "Community": ["Become a partner", "Hire a partner", "Affiliates", "Discord", "X / Twitter", "LinkedIn"],
+    };
+
+    return (
+      <footer className="bg-card/30 border-t border-border/30 py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+            <div className="col-span-2 md:col-span-3 lg:col-span-1">
+              <Logo />
+            </div>
+            {Object.entries(footerLinks).map(([title, links]) => (
+              <div key={title}>
+                <h4 className="font-semibold mb-4">{title}</h4>
+                <ul className="space-y-3">
+                  {links.map(link => <li key={link}><a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{link}</a></li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <Separator className="my-8 bg-border/50"/>
+           <div className="flex justify-between items-center text-sm text-muted-foreground">
+             <p>&copy; {new Date().getFullYear()} Robin. All rights reserved.</p>
+             <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4" />
+                <span>EN</span>
+             </div>
+           </div>
+        </div>
+      </footer>
+    );
+}
 
 export default function Landing({
   onStoryboardGenerated,
@@ -70,30 +160,49 @@ export default function Landing({
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4 bg-gradient-to-br from-[#111] to-[#222]">
-       <Header />
-      <div className="w-full max-w-2xl text-center">
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-4">
-            Build something <span className='text-primary'>Lovable</span>
-        </h1>
-        <p className="text-xl text-muted-foreground mb-8">
-            Create apps and websites by chatting with AI
-        </p>
+    <div className="flex min-h-screen flex-col items-center justify-start">
+      <Header />
+      <div className="flex flex-col items-center justify-center w-full min-h-screen pt-24 pb-12 px-4 text-center">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/20 rounded-full blur-[150px] pointer-events-none" />
+        
+        <div className="z-0">
+          <Badge variant="outline" className="mb-4 backdrop-blur-sm">
+            <Sparkles className="w-3 h-3 mr-2 text-primary"/>
+            Introducing Robin Cloud
+          </Badge>
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-4">
+              Build something <span className='text-primary'>amazing</span>
+          </h1>
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Create apps and websites by chatting with AI. Robin handles the code, you focus on the idea.
+          </p>
+        </div>
 
-        <form action={handleSubmit}>
-            <Card className="bg-card/50 border-border/30 shadow-2xl rounded-2xl">
-                <CardContent className="p-2 flex items-center gap-2">
+        <form action={handleSubmit} className="w-full max-w-2xl z-0">
+            <Card className="bg-card/50 border-border/30 shadow-2xl rounded-2xl backdrop-blur-sm">
+                <CardContent className="p-2">
                      <Textarea
                         name="prompt"
-                        placeholder="Ask Lovable to create a dashboard to..."
-                        className="text-base resize-none bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground"
+                        placeholder="Ask Robin to create a dashboard to..."
+                        className="text-base resize-none bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground min-h-[60px]"
                         required
                     />
-                    <SubmitButton />
+                    <div className="flex items-center justify-between mt-2 p-2">
+                       <div className='flex items-center gap-4'>
+                         <div className="flex items-center space-x-2">
+                            <Switch id="public-switch" />
+                            <Label htmlFor="public-switch" className="text-muted-foreground">Public</Label>
+                         </div>
+                         <Button variant="ghost" size="sm" className="text-muted-foreground"><Settings2 className="w-4 h-4 mr-2" />Options</Button>
+                       </div>
+                       <SubmitButton />
+                    </div>
                 </CardContent>
             </Card>
         </form>
       </div>
+      <CommunityShowcase />
+      <Footer />
     </div>
   );
 }

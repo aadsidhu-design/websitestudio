@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'AnimAI Studio',
+  title: 'Robin - AI-Powered Animation Studio',
   description: 'AI-Powered Animation Studio',
 };
 
