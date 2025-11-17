@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { AnimatePresence, motion } from "framer-motion"
-import { Globe, Paperclip, Plus, Send } from "lucide-react"
+import { Paperclip, Plus, Send } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Textarea } from "@/components/ui/textarea"
@@ -59,17 +59,17 @@ function useAutoResizeTextarea({
 const MIN_HEIGHT = 48
 const MAX_HEIGHT = 164
 
-const AnimatedPlaceholder = ({ showSearch }: { showSearch: boolean }) => (
+const AnimatedPlaceholder = () => (
   <AnimatePresence mode="wait">
     <motion.p
-      key={showSearch ? "search" : "ask"}
+      key="ask"
       initial={{ opacity: 0, y: 5 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -5 }}
       transition={{ duration: 0.1 }}
       className="pointer-events-none w-[150px] text-sm absolute text-black/70 dark:text-white/70"
     >
-      {showSearch ? "Search the web..." : "Ask Robin..."}
+      Ask Robin...
     </motion.p>
   </AnimatePresence>
 )
@@ -80,7 +80,6 @@ export function AiInput({ onSubmit }: { onSubmit: (formData: FormData) => void }
     minHeight: MIN_HEIGHT,
     maxHeight: MAX_HEIGHT,
   })
-  const [showSearch, setShowSearch] = useState(true)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
@@ -155,7 +154,7 @@ export function AiInput({ onSubmit }: { onSubmit: (formData: FormData) => void }
               />
               {!value && (
                 <div className="absolute left-4 top-3">
-                  <AnimatedPlaceholder showSearch={showSearch} />
+                  <AnimatedPlaceholder />
                 </div>
               )}
             </div>
@@ -202,64 +201,6 @@ export function AiInput({ onSubmit }: { onSubmit: (formData: FormData) => void }
                   </div>
                 )}
               </label>
-              <button
-                type="button"
-                onClick={() => {
-                  setShowSearch(!showSearch)
-                }}
-                className={cn(
-                  "rounded-full transition-all flex items-center gap-2 px-1.5 py-1 border h-8",
-                  showSearch
-                    ? "bg-[#ff3f17]/15 border-[#ff3f17] text-[#ff3f17]"
-                    : "bg-black/5 dark:bg-white/5 border-transparent text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white"
-                )}
-              >
-                <div className="w-4 h-4 flex items-center justify-center flex-shrink-0">
-                  <motion.div
-                    animate={{
-                      rotate: showSearch ? 180 : 0,
-                      scale: showSearch ? 1.1 : 1,
-                    }}
-                    whileHover={{
-                      rotate: showSearch ? 180 : 15,
-                      scale: 1.1,
-                      transition: {
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 10,
-                      },
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 25,
-                    }}
-                  >
-                    <Globe
-                      className={cn(
-                        "w-4 h-4",
-                        showSearch ? "text-[#ff3f17]" : "text-inherit"
-                      )}
-                    />
-                  </motion.div>
-                </div>
-                <AnimatePresence>
-                  {showSearch && (
-                    <motion.span
-                      initial={{ width: 0, opacity: 0 }}
-                      animate={{
-                        width: "auto",
-                        opacity: 1,
-                      }}
-                      exit={{ width: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="text-sm overflow-hidden whitespace-nowrap text-[#ff3f17] flex-shrink-0"
-                    >
-                      Search
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </button>
             </div>
             <div className="absolute right-3 bottom-3">
               <button
