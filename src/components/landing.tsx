@@ -2,35 +2,22 @@
 
 import { useEffect } from 'react';
 import { useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
 import { handleGenerateStoryboard } from '@/app/actions';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
-import { Sparkles, ArrowUp, Globe, Settings2, Twitter } from 'lucide-react';
+import { Globe, Twitter } from 'lucide-react';
 import type { StoryboardOption } from '@/app/types';
 import { useToast } from "@/hooks/use-toast";
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
+import { AiInput } from './ai-input';
 
 const initialState: { storyboardOptions: StoryboardOption[] | null; error: string | null } = {
   storyboardOptions: null,
   error: null,
 };
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" disabled={pending} className="rounded-full w-14 h-14 flex-shrink-0 bg-primary/80 hover:bg-primary shadow-lg hover:shadow-primary/50 transition-all duration-300">
-      {pending ? <Sparkles className="animate-spin" /> : <ArrowUp />}
-    </Button>
-  );
-}
 
 function Header() {
   return (
@@ -181,32 +168,15 @@ export default function Landing({
           </p>
         </div>
 
-        <form action={handleSubmit} className="w-full max-w-2xl z-0">
-            <Card className="bg-card/50 border-border/30 shadow-2xl rounded-2xl backdrop-blur-sm">
-                <CardContent className="p-2 flex items-center">
-                     <Textarea
-                        name="prompt"
-                        placeholder="Ask Robin to create a dashboard to..."
-                        className="text-base resize-none bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground flex-grow"
-                        required
-                        rows={1}
-                    />
-                    <div className="flex items-center gap-2 pl-2">
-                       <div className='hidden sm:flex items-center gap-4'>
-                         <div className="flex items-center space-x-2">
-                            <Switch id="public-switch" />
-                            <Label htmlFor="public-switch" className="text-muted-foreground">Public</Label>
-                         </div>
-                         <Button variant="ghost" size="sm" className="text-muted-foreground"><Settings2 className="w-4 h-4 mr-2" />Options</Button>
-                       </div>
-                       <SubmitButton />
-                    </div>
-                </CardContent>
-            </Card>
-        </form>
+        <div className="w-full max-w-2xl z-0">
+           <AiInput onSubmit={handleSubmit} />
+        </div>
       </div>
       <CommunityShowcase />
       <Footer />
     </div>
   );
 }
+
+// Re-exporting Card and CardContent as they are used in CommunityShowcase
+import { Card, CardContent } from '@/components/ui/card';
