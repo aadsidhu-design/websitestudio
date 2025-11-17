@@ -153,7 +153,7 @@ export function AiInput({ onSubmit }: { onSubmit: (formData: FormData) => void }
                 }}
               />
               {!value && (
-                <div className="absolute left-4 top-3">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2">
                   <AnimatedPlaceholder />
                 </div>
               )}

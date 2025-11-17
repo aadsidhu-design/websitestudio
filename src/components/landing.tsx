@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import React from 'react';
 import { useActionState } from 'react';
 import { handleGenerateStoryboard } from '@/app/actions';
 import { Button } from '@/components/ui/button';
@@ -13,6 +14,7 @@ import Image from 'next/image';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import { AiInput } from './ai-input';
+import Link from 'next/link';
 
 const initialState: { storyboardOptions: StoryboardOption[] | null; error: string | null } = {
   storyboardOptions: null,
@@ -26,15 +28,17 @@ function Header() {
             <Logo />
             <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
               <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Community</a>
-              <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Pricing</a>
+              <Link href="/pricing" className="text-foreground/80 hover:text-foreground transition-colors">Pricing</Link>
               <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Features</a>
               <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Learn</a>
             </nav>
             <nav className="flex items-center gap-2">
                 <Button variant="ghost" asChild>
-                  <a href="/login">Log in</a>
+                  <Link href="/login">Log in</Link>
                 </Button>
-                <Button className="bg-primary/90 hover:bg-primary rounded-full px-6 shadow-lg hover:shadow-primary/50 transition-all duration-300">Get Started</Button>
+                <Button asChild className="bg-primary/90 hover:bg-primary rounded-full px-6 shadow-lg hover:shadow-primary/50 transition-all duration-300">
+                  <Link href="/login">Get Started</Link>
+                </Button>
             </nav>
         </div>
     </header>
