@@ -3,11 +3,11 @@
 import { useEffect } from 'react';
 import React from 'react';
 import { useActionState } from 'react';
-import { handleGenerateStoryboard } from '@/app/actions';
+import { handleGeneratePlan } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import { Globe, Twitter } from 'lucide-react';
-import type { StoryboardOption } from '@/app/types';
+import { GenerateAnimationPlanOutput } from '@/ai/flows/generate-animation-plan';
 import { useToast } from "@/hooks/use-toast";
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
@@ -16,8 +16,8 @@ import { Separator } from './ui/separator';
 import { AiInput } from './ai-input';
 import Link from 'next/link';
 
-const initialState: { storyboardOptions: StoryboardOption[] | null; error: string | null } = {
-  storyboardOptions: null,
+const initialState: { plan: GenerateAnimationPlanOutput | null; error: string | null } = {
+  plan: null,
   error: null,
 };
 
@@ -91,10 +91,10 @@ function CommunityShowcase() {
 
 function Footer() {
     const footerLinks = {
-      "Product": ["Features", "Integrations", "Pricing", "Changelog", "Docs"],
-      "Company": ["About us", "Blog", "Careers", "Customers", "Contact us"],
-      "Resources": ["Community", "Inspiration", "Support", "Experts", "YouTube"],
-      "Legal": ["Privacy", "Terms", "Security"],
+      "Product": ["Features", "Integrations", "Pricing", "Changelog", "Docs", "Download"],
+      "Company": ["About us", "Blog", "Careers", "Customers", "Brand"],
+      "Resources": ["Community", "Contact", "Dribbble", "GitHub", "Twitter"],
+      "Legal": ["Terms of Use", "Privacy Policy", "Cookie Policy"],
     };
 
     return (
@@ -104,6 +104,7 @@ function Footer() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
             <div className="col-span-full lg:col-span-1">
               <Logo />
+               <p className="text-sm text-muted-foreground mt-4">Create and animate with the power of AI.</p>
             </div>
             {Object.entries(footerLinks).map(([title, links]) => (
               <div key={title}>
@@ -116,7 +117,7 @@ function Footer() {
           </div>
           <Separator className="my-8 bg-border/20" />
           <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
-             <p>&copy; {new Date().getFullYear()} Robin, Inc. All rights reserved.</p>
+             <p>&copy; {new Date().getFullYear()} Robin AI, Inc. All rights reserved.</p>
              <div className="flex items-center gap-4 mt-4 sm:mt-0">
                 <a href="#" className="hover:text-foreground transition-colors"><Globe className="w-5 h-5" /></a>
                 <a href="#" className="hover:text-foreground transition-colors"><Twitter className="w-5 h-5" /></a>
@@ -129,18 +130,18 @@ function Footer() {
 }
 
 export default function Landing({
-  onStoryboardGenerated,
+  onPlanGenerated,
   setIsLoading,
 }: {
-  onStoryboardGenerated: (options: StoryboardOption[]) => void;
+  onPlanGenerated: (plan: GenerateAnimationPlanOutput) => void;
   setIsLoading: (isLoading: boolean) => void;
 }) {
-  const [state, formAction] = useActionState(handleGenerateStoryboard, initialState);
+  const [state, formAction] = useActionState(handleGeneratePlan, initialState);
   const { toast } = useToast();
 
   useEffect(() => {
-    if (state.storyboardOptions) {
-      onStoryboardGenerated(state.storyboardOptions);
+    if (state.plan) {
+      onPlanGenerated(state.plan);
     }
     if (state.error) {
        toast({
@@ -150,7 +151,7 @@ export default function Landing({
       })
       setIsLoading(false);
     }
-  }, [state, onStoryboardGenerated, setIsLoading, toast]);
+  }, [state, onPlanGenerated, setIsLoading, toast]);
 
   const handleSubmit = (formData: FormData) => {
     setIsLoading(true);

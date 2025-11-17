@@ -1,18 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { StoryboardOption, AnimationFrame } from '@/app/types';
 import Landing from '@/components/landing';
 import StoryboardSelection from '@/components/storyboard-selection';
 import Editor from '@/components/editor';
+import Plan from '@/app/plan/page';
 import { handleGenerateFrames } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import Loading from './loading';
+import { GenerateAnimationPlanOutput } from '@/ai/flows/generate-animation-plan';
 
-type ProjectState = 'PROMPT' | 'STORYBOARD_SELECTION' | 'EDITING';
+type ProjectState = 'PROMPT' | 'PLANNING' | 'STORYBOARD_SELECTION' | 'EDITING';
 
 export default function Home() {
   const [projectState, setProjectState] = useState<ProjectState>('PROMPT');
+  const [plan, setPlan] = useState<GenerateAnimationPlanOutput | null>(null);
   const [storyboardOptions, setStoryboardOptions] = useState<StoryboardOption[]>([]);
   const [selectedStoryboard, setSelectedStoryboard] = useState<StoryboardOption | null>(null);
   const [animationFrames, setAnimationFrames] = useState<AnimationFrame[]>([]);
@@ -21,19 +24,33 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleStoryboardGenerated = (options: StoryboardOption[]) => {
-    if (options && options.length > 0) {
-      setStoryboardOptions(options);
+  const handlePlanGenerated = (plan: GenerateAnimationPlanOutput) => {
+    if (plan && plan.tasks.length > 0) {
+      setPlan(plan);
+      setProjectState('PLANNING');
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Plan Generation Failed',
+        description: 'The AI could not generate a plan. Please try a different prompt.',
+      });
+    }
+    setIsLoading(false);
+  };
+  
+  const handlePlanAccepted = (storyboardOptions: StoryboardOption[]) => {
+    if (storyboardOptions && storyboardOptions.length > 0) {
+      setStoryboardOptions(storyboardOptions);
       setProjectState('STORYBOARD_SELECTION');
     } else {
       toast({
         variant: 'destructive',
         title: 'Storyboard Generation Failed',
-        description: 'The AI could not generate storyboards. Please try a different prompt.',
+        description: 'The AI could not generate storyboards from the plan. Please try again.',
       });
     }
     setIsLoading(false);
-  };
+  }
 
   const handleStoryboardSelected = async (storyboard: StoryboardOption) => {
     setIsLoading(true);
@@ -96,7 +113,9 @@ export default function Home() {
   const renderState = () => {
     switch (projectState) {
       case 'PROMPT':
-        return <Landing onStoryboardGenerated={handleStoryboardGenerated} setIsLoading={setIsLoading} />;
+        return <Landing onPlanGenerated={handlePlanGenerated} setIsLoading={setIsLoading} />;
+      case 'PLANNING':
+        return plan ? <Plan initialTasks={plan.tasks} onAccept={handlePlanAccepted} setIsLoading={setIsLoading} /> : <Landing onPlanGenerated={handlePlanGenerated} setIsLoading={setIsLoading} />;
       case 'STORYBOARD_SELECTION':
         return <StoryboardSelection storyboardOptions={storyboardOptions} onSelect={handleStoryboardSelected} />;
       case 'EDITING':
@@ -112,7 +131,7 @@ export default function Home() {
           />
         );
       default:
-        return <Landing onStoryboardGenerated={handleStoryboardGenerated} setIsLoading={setIsLoading} />;
+        return <Landing onPlanGenerated={handlePlanGenerated} setIsLoading={setIsLoading} />;
     }
   };
 

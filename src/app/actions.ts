@@ -16,7 +16,27 @@ import {
 import {
   collaborativeAIAssistedEditing,
   CollaborativeAIAssistedEditingInput
-} from '@/ai/flows/collaborative-ai-assisted-editing'
+} from '@/ai/flows/collaborative-ai-assisted-editing';
+import { generateAnimationPlan, GenerateAnimationPlanOutput } from '@/ai/flows/generate-animation-plan';
+
+export async function handleGeneratePlan(
+  prevState: any,
+  formData: FormData
+): Promise<{ plan: GenerateAnimationPlanOutput | null; error: string | null }> {
+  const prompt = formData.get('prompt') as string;
+  if (!prompt) {
+    return { plan: null, error: 'Prompt is required.' };
+  }
+
+  try {
+    const result = await generateAnimationPlan({ prompt });
+    return { plan: result, error: null };
+  } catch (e: any) {
+    console.error(e);
+    return { plan: null, error: e.message || 'Failed to generate plan.' };
+  }
+}
+
 
 export async function handleGenerateStoryboard(
   prevState: any,
