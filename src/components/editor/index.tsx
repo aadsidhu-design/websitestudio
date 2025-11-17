@@ -26,7 +26,7 @@ export default function Editor({
   const activeFrame = frames[activeFrameIndex];
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen bg-gradient-to-br from-[#111] to-[#222]">
       <EditorHeader onUndo={onUndo} canUndo={canUndo} />
       
       <div className="flex-grow flex flex-col overflow-hidden">
@@ -37,7 +37,7 @@ export default function Editor({
         />
         
         <div className="flex-grow flex overflow-hidden">
-          <div className="w-[380px] flex-shrink-0 border-r border-border overflow-y-auto">
+          <div className="w-[380px] flex-shrink-0 bg-card/30 border-r border-border/30 overflow-y-auto">
             <ControlsPanel 
               activeFrame={activeFrame} 
               onFrameAdjusted={onFrameAdjusted} 

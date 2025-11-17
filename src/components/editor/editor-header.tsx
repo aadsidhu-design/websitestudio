@@ -15,7 +15,7 @@ export default function EditorHeader({ onUndo, canUndo }: { onUndo: () => void; 
   };
 
   return (
-    <header className="flex-shrink-0 border-b border-border h-16">
+    <header className="flex-shrink-0 border-b border-border/30 h-16 bg-card/30">
       <div className="container-fluid mx-auto px-4 h-full flex items-center justify-between">
         <Logo />
         <div className="flex items-center gap-2">

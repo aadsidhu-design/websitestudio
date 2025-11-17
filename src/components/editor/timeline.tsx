@@ -14,7 +14,7 @@ export default function Timeline({
   onSelectFrame: (index: number) => void;
 }) {
   return (
-    <div className="flex-shrink-0 bg-muted/20 border-b border-border">
+    <div className="flex-shrink-0 bg-card/30 border-b border-border/30">
       <ScrollArea className="w-full whitespace-nowrap">
         <div className="flex w-max space-x-2 p-2">
           {frames.map((frame, index) => (
@@ -22,9 +22,9 @@ export default function Timeline({
               <Button
                 variant="ghost"
                 className={cn(
-                  'h-auto p-1 border-2 bg-card',
+                  'h-auto p-1 border-2 bg-card/50 border-border/30',
                   activeIndex === index
-                    ? 'border-primary shadow-lg'
+                    ? 'border-primary shadow-lg shadow-primary/20'
                     : 'border-transparent hover:border-primary/50'
                 )}
                 onClick={() => onSelectFrame(index)}

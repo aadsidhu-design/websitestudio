@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useActionState } from 'react';
+import { useEffect } from 'react';
+import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { handleAdjustFrame, handleCollaborate } from '@/app/actions';
 import { Button } from '@/components/ui/button';
@@ -74,12 +75,12 @@ export default function ControlsPanel({
   return (
     <div className="p-4 h-full">
       <Tabs defaultValue="adjust" className="flex flex-col h-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-2 bg-card/50 border border-border/30">
           <TabsTrigger value="adjust"><Wand2 className="h-4 w-4 mr-2" />Adjust</TabsTrigger>
           <TabsTrigger value="collaborate"><Users className="h-4 w-4 mr-2" />Collaborate</TabsTrigger>
         </TabsList>
         <TabsContent value="adjust" className="flex-grow">
-          <Card className="h-full border-0 shadow-none">
+          <Card className="h-full border-0 shadow-none bg-transparent">
             <CardHeader>
               <CardTitle>AI Frame Adjustment</CardTitle>
               <CardDescription>Describe the changes you want to make to the selected frame.</CardDescription>
@@ -94,7 +95,7 @@ export default function ControlsPanel({
                     id="adjustmentInstructions"
                     name="adjustmentInstructions"
                     placeholder="e.g., 'Make the robot's eyes glow brighter' or 'Change the sky to a deep purple'"
-                    className="min-h-[150px]"
+                    className="min-h-[150px] bg-card/50 border-border/30"
                     required
                   />
                 </div>
@@ -104,7 +105,7 @@ export default function ControlsPanel({
           </Card>
         </TabsContent>
         <TabsContent value="collaborate" className="flex-grow">
-          <Card className="h-full border-0 shadow-none">
+          <Card className="h-full border-0 shadow-none bg-transparent">
             <CardHeader>
               <CardTitle>Collaborative Editing</CardTitle>
               <CardDescription>Use team feedback to guide AI-powered revisions.</CardDescription>
@@ -119,7 +120,7 @@ export default function ControlsPanel({
                     id="comments"
                     name="comments"
                     placeholder="- 'Character looks stiff' (from Lead Animator)&#10;- 'Color palette is too dark' (from Art Director)"
-                    className="min-h-[100px]"
+                    className="min-h-[100px] bg-card/50 border-border/30"
                   />
                 </div>
                  <div className="space-y-2">
@@ -128,7 +129,7 @@ export default function ControlsPanel({
                     id="desiredChanges"
                     name="desiredChanges"
                     placeholder="Summarize the action items. e.g., 'Loosen the character's pose and brighten the overall color palette.'"
-                    className="min-h-[100px]"
+                    className="min-h-[100px] bg-card/50 border-border/30"
                     required
                   />
                 </div>
