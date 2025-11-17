@@ -44,7 +44,9 @@ function Header() {
               <a href="#" className="text-foreground/80 hover:text-foreground transition-colors">Learn</a>
             </nav>
             <nav className="flex items-center gap-2">
-                <Button variant="ghost">Log in</Button>
+                <Button variant="ghost" asChild>
+                  <a href="/login">Log in</a>
+                </Button>
                 <Button className="bg-primary/90 hover:bg-primary rounded-full px-6 shadow-lg hover:shadow-primary/50 transition-all duration-300">Get Started</Button>
             </nav>
         </div>
@@ -66,7 +68,7 @@ function CommunityShowcase() {
               <Button variant="outline" className="ml-auto rounded-full">View All</Button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {PlaceHolderImages.map((image, index) => (
+                {PlaceHolderImages.filter(img => img.id !== 'login-hero').map((image, index) => (
                     <Card key={image.id} className="group overflow-hidden bg-card/50 border-border/30 hover:shadow-primary/20 hover:shadow-lg transition-all duration-300 rounded-xl">
                         <CardContent className="p-0">
                             <div className="relative aspect-[4/3] w-full">
@@ -98,19 +100,18 @@ function CommunityShowcase() {
 
 function Footer() {
     const footerLinks = {
-      "Company": ["Careers", "Press & media", "Enterprise", "Security", "Trust center", "Partnerships"],
-      "Product": ["Pricing", "Student discount", "Solutions", "Connections", "Import from Figma", "Changelog", "Status"],
-      "Resources": ["Learn", "How-to guides", "Videos", "Blog", "Launched", "Support"],
-      "Legal": ["Privacy policy", "Cookie settings", "Terms of Service", "Platform rules", "Report abuse", "Report security concerns"],
-      "Community": ["Become a partner", "Hire a partner", "Affiliates", "Discord", "X / Twitter", "YouTube", "LinkedIn"],
+      "Product": ["Features", "Integrations", "Pricing", "Changelog", "Docs"],
+      "Company": ["About us", "Blog", "Careers", "Customers", "Contact us"],
+      "Resources": ["Community", "Inspiration", "Support", "Experts", "YouTube"],
+      "Legal": ["Privacy", "Terms", "Security"],
     };
 
     return (
       <footer className="py-16">
         <div className="container mx-auto px-8">
          <div className="bg-[#1C1C1C] p-12 rounded-3xl">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            <div className="col-span-2 md:col-span-3 lg:col-span-1">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            <div className="col-span-full lg:col-span-1">
               <Logo />
             </div>
             {Object.entries(footerLinks).map(([title, links]) => (
@@ -122,11 +123,13 @@ function Footer() {
               </div>
             ))}
           </div>
-          <div className="mt-12 flex justify-start items-center text-sm text-muted-foreground">
-             <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
-                <Globe className="w-4 h-4 mr-2" />
-                <span>EN</span>
-             </Button>
+          <Separator className="my-8 bg-border/20" />
+          <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
+             <p>&copy; {new Date().getFullYear()} Robin, Inc. All rights reserved.</p>
+             <div className="flex items-center gap-4 mt-4 sm:mt-0">
+                <a href="#" className="hover:text-foreground transition-colors"><Globe className="w-5 h-5" /></a>
+                <a href="#" className="hover:text-foreground transition-colors"><Twitter className="w-5 h-5" /></a>
+             </div>
            </div>
           </div>
         </div>
