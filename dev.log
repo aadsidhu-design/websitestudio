@@ -1,0 +1,57 @@
+
+> nextn@0.1.0 dev
+> next dev --turbopack -p 9002
+
+   ▲ Next.js 15.3.3 (Turbopack)
+   - Local:        http://localhost:9002
+   - Network:      http://168.150.32.5:9002
+   - Environments: .env
+
+ ✓ Starting...
+Slow filesystem detected. If /Users/aadi/Desktop/websitestudio/.next is a network drive, consider moving it to a local folder. If you have an antivirus enabled, consider excluding your project directory.
+ ✓ Ready in 1323ms
+ ○ Compiling / ...
+
+warn - The class `duration-[1500ms]` is ambiguous and matches multiple utilities.
+warn - If this is content and not a class, replace it with `duration-&lsqb;1500ms&rsqb;` to silence this warning.
+ ✓ Compiled / in 3.6s
+ GET / 200 in 4123ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1839ms
+ GET /favicon.ico?favicon.56766c03.ico 200 in 2241ms
+ GET / 200 in 501ms
+ ✓ Compiled in 764ms
+ GET / 200 in 724ms
+ ○ Compiling /api/chat ...
+ ✓ Compiled /api/chat in 9s
+Error generating object: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at async generateObject (src/lib/gemini.ts:45:23)
+    at async PlannerAgent.generatePlan (src/ai/agents/planner.ts:78:11)
+    at async POST (src/app/api/chat/route.ts:18:25)
+  43 |         }
+  44 |
+> 45 |         const result = await model.generateContent(finalPrompt);
+     |                       ^
+  46 |         const response = await result.response;
+  47 |         const text = response.text();
+  48 | {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+API Error Details: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at async generateObject (src/lib/gemini.ts:45:23)
+    at async PlannerAgent.generatePlan (src/ai/agents/planner.ts:78:11)
+    at async POST (src/app/api/chat/route.ts:18:25)
+  43 |         }
+  44 |
+> 45 |         const result = await model.generateContent(finalPrompt);
+     |                       ^
+  46 |         const response = await result.response;
+  47 |         const text = response.text();
+  48 | {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+ POST /api/chat 500 in 12744ms

@@ -1,12 +1,22 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SignInPage, Testimonial } from '@/components/sign-in-page';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/auth-context';
+import { useRouter } from 'next/navigation';
 
 const LoginPage: React.FC = () => {
     const { toast } = useToast();
+    const { signInWithGoogle, user } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (user) {
+            router.push('/');
+        }
+    }, [user, router]);
 
     const heroImage = PlaceHolderImages.find(img => img.id === 'login-hero');
 
@@ -42,14 +52,25 @@ const LoginPage: React.FC = () => {
         showToast("Signing In...", `Attempting to sign in as ${email}`);
     };
 
+    const handleGoogleSignIn = async () => {
+        try {
+            await signInWithGoogle();
+        } catch (error) {
+            showToast("Error", "Failed to sign in with Google");
+        }
+    };
+
     return (
         <SignInPage
             heroImageSrc={heroImage?.imageUrl}
             testimonials={testimonials}
             onSignIn={handleSignIn}
-            onGoogleSignIn={() => showToast("Google Sign-In", "This feature is not yet implemented.")}
+            onGoogleSignIn={handleGoogleSignIn}
             onResetPassword={() => showToast("Reset Password", "This feature is not yet implemented.")}
-            onCreateAccount={() => showToast("Create Account", "This feature is not yet implemented.")}
+            onCreateAccount={() => {
+                showToast("Creating Account", "Signing in with Google will create your account automatically.");
+                handleGoogleSignIn();
+            }}
         />
     );
 };

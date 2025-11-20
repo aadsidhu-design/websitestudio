@@ -43,11 +43,11 @@ const initialState: { storyboardOptions: StoryboardOption[] | null; error: strin
 };
 
 
-export default function Plan({
+export function PlanDetailed({
   initialTasks,
   onAccept,
   setIsLoading,
-} : {
+}: {
   initialTasks: Task[];
   onAccept: (storyboardOptions: StoryboardOption[]) => void;
   setIsLoading: (isLoading: boolean) => void;
@@ -57,7 +57,7 @@ export default function Plan({
   const [expandedSubtasks, setExpandedSubtasks] = useState<{
     [key: string]: boolean;
   }>({});
-  
+
   const [state, formAction] = useActionState(handleGenerateStoryboard, initialState);
 
   React.useEffect(() => {
@@ -79,9 +79,9 @@ export default function Plan({
   }
 
   // Add support for reduced motion preference
-  const prefersReducedMotion = 
-    typeof window !== 'undefined' 
-      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+  const prefersReducedMotion =
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
       : false;
 
   // Toggle task expansion
@@ -161,16 +161,16 @@ export default function Plan({
 
   // Animation variants with reduced motion support
   const taskVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: prefersReducedMotion ? 0 : -5 
+    hidden: {
+      opacity: 0,
+      y: prefersReducedMotion ? 0 : -5
     },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        type: prefersReducedMotion ? "tween" : "spring", 
-        stiffness: 500, 
+      transition: {
+        type: prefersReducedMotion ? "tween" : "spring",
+        stiffness: 500,
         damping: 30,
         duration: prefersReducedMotion ? 0.2 : undefined
       }
@@ -183,17 +183,17 @@ export default function Plan({
   };
 
   const subtaskListVariants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       height: 0,
-      overflow: "hidden" 
+      overflow: "hidden"
     },
-    visible: { 
-      height: "auto", 
+    visible: {
+      height: "auto",
       opacity: 1,
       overflow: "visible",
-      transition: { 
-        duration: 0.25, 
+      transition: {
+        duration: 0.25,
         staggerChildren: prefersReducedMotion ? 0 : 0.05,
         when: "beforeChildren",
         ease: [0.2, 0.65, 0.3, 0.9] // Custom easing curve for Apple-like feel
@@ -203,7 +203,7 @@ export default function Plan({
       height: 0,
       opacity: 0,
       overflow: "hidden",
-      transition: { 
+      transition: {
         duration: 0.2,
         ease: [0.2, 0.65, 0.3, 0.9]
       }
@@ -211,16 +211,16 @@ export default function Plan({
   };
 
   const subtaskVariants = {
-    hidden: { 
-      opacity: 0, 
-      x: prefersReducedMotion ? 0 : -10 
+    hidden: {
+      opacity: 0,
+      x: prefersReducedMotion ? 0 : -10
     },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
-      transition: { 
-        type: prefersReducedMotion ? "tween" : "spring", 
-        stiffness: 500, 
+      transition: {
+        type: prefersReducedMotion ? "tween" : "spring",
+        stiffness: 500,
         damping: 25,
         duration: prefersReducedMotion ? 0.2 : undefined
       }
@@ -233,16 +233,16 @@ export default function Plan({
   };
 
   const subtaskDetailsVariants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       height: 0,
       overflow: "hidden"
     },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       height: "auto",
       overflow: "visible",
-      transition: { 
+      transition: {
         duration: 0.25,
         ease: [0.2, 0.65, 0.3, 0.9]
       }
@@ -252,9 +252,9 @@ export default function Plan({
   // Status badge animation variants
   const statusBadgeVariants = {
     initial: { scale: 1 },
-    animate: { 
+    animate: {
       scale: prefersReducedMotion ? 1 : [1, 1.08, 1],
-      transition: { 
+      transition: {
         duration: 0.35,
         ease: [0.34, 1.56, 0.64, 1] // Springy custom easing for bounce effect
       }
@@ -264,24 +264,24 @@ export default function Plan({
   return (
     <div className="bg-background text-foreground h-full overflow-auto p-4 md:p-8 flex flex-col items-center min-h-screen">
       <div className="w-full max-w-4xl">
-        <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="text-center mb-8"
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="text-center mb-8"
         >
-            <div className="inline-block bg-primary/10 text-primary p-3 rounded-full mb-4">
-                <Bot className="w-8 h-8" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Robin's Plan</h1>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">Here's the step-by-step plan the AI generated to bring your idea to life. You can review and approve it, or ask for changes.</p>
+          <div className="inline-block bg-primary/10 text-primary p-3 rounded-full mb-4">
+            <Bot className="w-8 h-8" />
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Robin's Plan</h1>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">Here's the step-by-step plan the AI generated to bring your idea to life. You can review and approve it, or ask for changes.</p>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className="bg-card border-border rounded-lg border shadow overflow-hidden"
           initial={{ opacity: 0, y: 10 }}
-          animate={{ 
-            opacity: 1, 
+          animate={{
+            opacity: 1,
             y: 0,
             transition: {
               duration: 0.3,
@@ -305,9 +305,9 @@ export default function Plan({
                       variants={taskVariants}
                     >
                       {/* Task row */}
-                      <motion.div 
+                      <motion.div
                         className="group flex items-center px-3 py-1.5 rounded-md"
-                        whileHover={{ 
+                        whileHover={{
                           backgroundColor: "hsl(var(--muted))",
                           transition: { duration: 0.2 }
                         }}
@@ -373,10 +373,10 @@ export default function Plan({
                                         duration: 0.2,
                                         delay: idx * 0.05
                                       }}
-                                      whileHover={{ 
-                                        y: -1, 
+                                      whileHover={{
+                                        y: -1,
                                         backgroundColor: "hsl(var(--secondary))",
-                                        transition: { duration: 0.2 } 
+                                        transition: { duration: 0.2 }
                                       }}
                                     >
                                       {dep}
@@ -387,8 +387,7 @@ export default function Plan({
                             )}
 
                             <motion.span
-                              className={`rounded px-1.5 py-0.5 text-xs ${
-                                task.status === "completed"
+                              className={`rounded px-1.5 py-0.5 text-xs ${task.status === "completed"
                                   ? "bg-green-500/10 text-green-500"
                                   : task.status === "in-progress"
                                     ? "bg-blue-500/10 text-blue-500"
@@ -397,7 +396,7 @@ export default function Plan({
                                       : task.status === "failed"
                                         ? "bg-red-500/10 text-red-500"
                                         : "bg-muted text-muted-foreground"
-                              }`}
+                                }`}
                               variants={statusBadgeVariants}
                               initial="initial"
                               animate="animate"
@@ -412,7 +411,7 @@ export default function Plan({
                       {/* Subtasks - staggered */}
                       <AnimatePresence mode="wait">
                         {isExpanded && task.subtasks.length > 0 && (
-                          <motion.div 
+                          <motion.div
                             className="relative overflow-hidden"
                             variants={subtaskListVariants}
                             initial="hidden"
@@ -440,9 +439,9 @@ export default function Plan({
                                     exit="exit"
                                     layout
                                   >
-                                    <motion.div 
+                                    <motion.div
                                       className="flex flex-1 items-center rounded-md p-1"
-                                      whileHover={{ 
+                                      whileHover={{
                                         backgroundColor: "hsl(var(--muted))",
                                         transition: { duration: 0.2 }
                                       }}
@@ -493,7 +492,7 @@ export default function Plan({
 
                                     <AnimatePresence mode="wait">
                                       {isSubtaskExpanded && (
-                                        <motion.div 
+                                        <motion.div
                                           className="text-muted-foreground border-foreground/20 mt-1 ml-1.5 border-l border-dashed pl-5 text-xs overflow-hidden"
                                           variants={subtaskDetailsVariants}
                                           initial="hidden"
@@ -513,18 +512,18 @@ export default function Plan({
                                                     key={idx}
                                                     className="bg-secondary/40 text-secondary-foreground rounded px-1.5 py-0.5 text-[10px] font-medium shadow-sm"
                                                     initial={{ opacity: 0, y: -5 }}
-                                                    animate={{ 
-                                                      opacity: 1, 
+                                                    animate={{
+                                                      opacity: 1,
                                                       y: 0,
                                                       transition: {
                                                         duration: 0.2,
                                                         delay: idx * 0.05
                                                       }
                                                     }}
-                                                    whileHover={{ 
-                                                      y: -1, 
+                                                    whileHover={{
+                                                      y: -1,
                                                       backgroundColor: "hsl(var(--secondary))",
-                                                      transition: { duration: 0.2 } 
+                                                      transition: { duration: 0.2 }
                                                     }}
                                                   >
                                                     {tool}
@@ -550,7 +549,7 @@ export default function Plan({
             </div>
           </LayoutGroup>
         </motion.div>
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut", delay: 0.2 }}
