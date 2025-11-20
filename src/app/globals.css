@@ -85,30 +85,30 @@ body {
 
 @layer base {
   :root {
-    --background: 35 48% 96%;
-    --foreground: 24 13% 18%;
-    --card: 0 0% 100%;
-    --card-foreground: 26 15% 20%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 26 15% 20%;
-    --primary: 259 83% 63%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 33 52% 92%;
-    --secondary-foreground: 26 15% 20%;
-    --muted: 33 52% 94%;
-    --muted-foreground: 26 12% 38%;
-    --accent: 217 87% 60%;
-    --accent-foreground: 210 30% 16%;
-    --destructive: 4 74% 58%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 32 34% 84%;
-    --input: 32 34% 84%;
-    --ring: 259 83% 63%;
-    --chart-1: 12 76% 65%;
-    --chart-2: 208 82% 60%;
-    --chart-3: 261 70% 58%;
-    --chart-4: 43 90% 65%;
-    --chart-5: 147 54% 45%;
+    --background: 0 0% 3.9%; /* #0a0a0a */
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
     --radius: 0.5rem;
   }
 }
@@ -119,6 +119,7 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    background-color: #0a0a0a; /* Force deep dark background */
   }
   .custom-checkbox {
     appearance: none;

@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 
 
 
-export function TypewriterEffect({ words, className, speed = 100, deleteSpeed = 50, pause = 1500 }: { words: string[], className?: string, speed?: number, deleteSpeed?: number, pause?: number }) {
+export function TypewriterEffect({ words, className, cursorClassName, speed = 100, deleteSpeed = 50, pause = 1500 }: { words: string[], className?: string, cursorClassName?: string, speed?: number, deleteSpeed?: number, pause?: number }) {
     const [displayedText, setDisplayedText] = useState('');
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -38,7 +38,7 @@ export function TypewriterEffect({ words, className, speed = 100, deleteSpeed = 
     return (
         <span className={cn("inline-block", className)}>
             {displayedText}
-            <span className="inline-block w-[2px] h-[1em] bg-current ml-[1px] animate-pulse align-middle" />
+            <span className={cn("inline-block w-[2px] h-[1em] bg-current ml-[1px] animate-pulse align-middle", cursorClassName)} />
         </span>
     );
 }

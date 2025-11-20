@@ -18,7 +18,7 @@ export function Sidebar({ className }: SidebarProps) {
 
     const navItems = [
         { icon: Home, label: 'Home', href: '/' },
-        { icon: Folder, label: 'Projects', href: '/projects' },
+        { icon: Folder, label: 'Studio', href: '/studio' },
         { icon: Settings, label: 'Settings', href: '/settings' },
     ];
 

@@ -9,14 +9,8 @@ const coder = new CoderAgent();
 
 export async function POST(req: NextRequest) {
     try {
-<<<<<<< ours
-        body = await req.json();
-        const { message, step: incomingStep, context, images, previousFrames } = body;
-        step = incomingStep;
-=======
         const body = await req.json();
         const { message, step, context, images, previousFrames } = body;
->>>>>>> theirs
 
         // Simple orchestration logic based on the current workflow step
         let responseData: any = {};

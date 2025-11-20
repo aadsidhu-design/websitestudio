@@ -4,8 +4,10 @@ import { cn } from "@/lib/utils";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import { motion, AnimatePresence } from "framer-motion";
 import { PulseLoader } from "react-spinners";
-import { AiInput } from './ai-input';
-import { Clock, Sparkles } from 'lucide-react';
+import { PromptBox } from './ui/prompt-box';
+import { Clock, Sparkles, User, Bot, Copy, Check } from 'lucide-react';
+import { Button } from './ui/button';
+import ReactMarkdown from 'react-markdown';
 
 export interface Message {
     id: string;
@@ -25,6 +27,7 @@ interface ChatInterfaceProps {
 export function ChatInterface({ messages, onSendMessage, isGenerating }: ChatInterfaceProps) {
     const scrollAreaRef = useRef<HTMLDivElement>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [copiedId, setCopiedId] = React.useState<string | null>(null);
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
@@ -36,13 +39,19 @@ export function ChatInterface({ messages, onSendMessage, isGenerating }: ChatInt
         scrollToBottom();
     }, [messages, isGenerating]);
 
+    const copyToClipboard = (content: string, id: string) => {
+        navigator.clipboard.writeText(content);
+        setCopiedId(id);
+        setTimeout(() => setCopiedId(null), 2000);
+    };
+
     return (
-        <div className="flex flex-col h-full bg-background text-foreground font-sans">
-            <ScrollArea className="flex-1 px-4 py-4" ref={scrollAreaRef}>
-                <div className="space-y-8 max-w-3xl mx-auto">
-                    {messages.length === 0 && (
-                        <div className="flex flex-col items-center justify-center h-[50vh] text-center space-y-6 opacity-0 animate-in fade-in duration-500">
-                            <h2 className="text-2xl font-semibold tracking-tight text-foreground/80">Chat with Robin to start creating</h2>
+        <div className="flex flex-col h-full bg-[#111111] text-gray-200 font-sans">
+            <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
+                <div className="space-y-6 max-w-3xl mx-auto pb-4">
+                    {messages.length <= 1 && !isGenerating && (
+                        <div className="flex flex-col items-center justify-center min-h-[400px] space-y-8 text-center">
+                            <h2 className="text-2xl font-medium text-white">What can I build for you?</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-lg">
                                 {[
                                     "Create a bouncing ball animation",
@@ -53,7 +62,7 @@ export function ChatInterface({ messages, onSendMessage, isGenerating }: ChatInt
                                     <button
                                         key={i}
                                         onClick={() => onSendMessage(prompt)}
-                                        className="text-sm text-left p-3 rounded-lg border border-border/40 hover:bg-accent/50 hover:border-accent transition-all duration-200 text-muted-foreground hover:text-foreground bg-card/50"
+                                        className="text-sm text-left p-4 rounded-xl bg-[#1a1a1a] hover:bg-[#222] transition-colors text-gray-400 hover:text-white"
                                     >
                                         {prompt}
                                     </button>
@@ -63,68 +72,74 @@ export function ChatInterface({ messages, onSendMessage, isGenerating }: ChatInt
                     )}
 
                     <AnimatePresence initial={false}>
-                        {messages.map((message, index) => {
-                            const isAssistant = message.role === 'assistant';
-                            return (
-                                <motion.div
-                                    key={message.id}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className="group w-full"
+                        {messages.filter(m => m.role !== 'system').map((message, index) => (
+                            <motion.div
+                                key={message.id} // Changed key to message.id for stability
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ duration: 0.2 }}
+                                className={cn(
+                                    "flex w-full",
+                                    message.role === 'user' ? "justify-end" : "justify-start"
+                                )}
+                            >
+                                <div
+                                    className={cn(
+                                        "max-w-[85%] rounded-2xl p-4 text-sm leading-relaxed relative group",
+                                        message.role === 'user'
+                                            ? "bg-transparent text-white"
+                                            : "bg-[#1a1a1a] text-gray-300"
+                                    )}
                                 >
-                                    <div className="flex flex-col gap-1">
-                                        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                                            {isAssistant ? 'Robin' : 'You'}
+                                    {message.role === 'assistant' && (
+                                        <div className="absolute -right-8 top-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button
+                                                onClick={() => copyToClipboard(message.content, message.id)}
+                                                className="p-1.5 rounded-lg hover:bg-[#222] text-gray-500 hover:text-white transition-colors"
+                                            >
+                                                {copiedId === message.id ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                            </button>
                                         </div>
+                                    )}
 
-                                        <div className={cn(
-                                            "text-base leading-relaxed text-foreground/90",
-                                            isAssistant ? "" : ""
-                                        )}>
-                                            {isAssistant && message.isTyping ? (
-                                                <TypewriterEffect
-                                                    words={[message.content]}
-                                                    className="text-base leading-relaxed"
-                                                />
-                                            ) : (
-                                                <div className="whitespace-pre-wrap text-base leading-relaxed text-foreground/90">
-                                                    {message.content}
-                                                </div>
-                                            )}
-
-                                            <div className="mt-3 flex items-center gap-3 text-[11px] text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                                                {message.order && (
-                                                    <div className="flex items-center gap-1">
-                                                        <Clock className="w-3 h-3" />
-                                                        <span>{`Step ${message.order}`}</span>
-                                                    </div>
-                                                )}
-                                                {isAssistant && (
-                                                    <div className="flex items-center gap-1">
-                                                        <Sparkles className="w-3 h-3" />
-                                                        <span>Storyboard aware</span>
-                                                    </div>
-                                                )}
-                                            </div>
+                                    {message.role === 'assistant' ? (
+                                        <div className="prose prose-invert max-w-none prose-p:leading-relaxed prose-pre:bg-[#111] prose-pre:border prose-pre:border-white/5">
+                                            <ReactMarkdown>{message.content}</ReactMarkdown>
                                         </div>
-                                    </div>
-                                </motion.div>
-                            );
-                        })}
+                                    ) : (
+                                        <div className="whitespace-pre-wrap">{message.content}</div>
+                                    )}
+                                </div>
+                            </motion.div>
+                        ))}
                     </AnimatePresence>
 
                     {isGenerating && (
                         <motion.div
-                            initial={{ opacity: 0, y: 5 }}
+                            initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="flex flex-col gap-1 w-full"
+                            className="flex justify-start w-full"
                         >
-                            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                                Robin
-                            </div>
-                            <div className="py-2">
-                                <PulseLoader color="#94a3b8" size={6} speedMultiplier={0.6} />
+                            <div className="bg-[#1a1a1a] rounded-2xl p-4 flex items-center gap-3">
+                                <div className="flex space-x-1">
+                                    <motion.div
+                                        className="w-2 h-2 bg-gray-500 rounded-full"
+                                        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                                        transition={{ duration: 1, repeat: Infinity, delay: 0 }}
+                                    />
+                                    <motion.div
+                                        className="w-2 h-2 bg-gray-500 rounded-full"
+                                        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                                        transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
+                                    />
+                                    <motion.div
+                                        className="w-2 h-2 bg-gray-500 rounded-full"
+                                        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                                        transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}
+                                    />
+                                </div>
+                                <span className="text-sm text-gray-500 font-medium">Thinking...</span>
                             </div>
                         </motion.div>
                     )}
@@ -132,9 +147,14 @@ export function ChatInterface({ messages, onSendMessage, isGenerating }: ChatInt
                 </div>
             </ScrollArea>
 
-            <div className="p-4 border-t border-border/40 bg-background/80 backdrop-blur-sm">
-                <div className="max-w-3xl mx-auto">
-                    <AiInput onSubmit={(formData) => onSendMessage(formData.get('prompt') as string)} disabled={isGenerating} />
+            <div className="p-4 bg-[#111111]">
+                <div className="max-w-3xl mx-auto relative">
+                    <PromptBox
+                        onSubmit={(value) => onSendMessage(typeof value === 'string' ? value : '')}
+                        isLoading={isGenerating}
+                        placeholder="Ask Robin to create something..."
+                        className="bg-[#1a1a1a] border-white/5 focus-within:border-white/10 shadow-lg"
+                    />
                 </div>
             </div>
         </div>
