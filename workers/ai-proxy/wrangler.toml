@@ -1,0 +1,9 @@
+name = "websitestudio-ai-proxy"
+main = "./index.js"
+compatibility_date = "2025-11-22"
+type = "javascript"
+
+[vars]
+# Set any environment variables you need here. Prefer using `wrangler secret` for secrets.
+API_PROVIDER = "openai"
+CF_ACCOUNT_ID = ""  # Optional: set to your Cloudflare Account ID if using Cloudflare AI
